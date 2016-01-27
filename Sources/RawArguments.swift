@@ -51,8 +51,13 @@ class RawArguments: CustomStringConvertible {
     }
     
     func classifyArgument(argument argument: String, type: RawArgumentType) {
-        if let index = arguments.indexOf(argument) {
-            classifyArgument(index: index, type: type)
+        // find the first instance of argument that's unclassified
+        for (index, candidate) in arguments.enumerate() {
+            if candidate != argument { continue }
+            if argumentClassifications[index] == .Unclassified {
+                classifyArgument(index: index, type: type)
+                return
+            }
         }
     }
     
